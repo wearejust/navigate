@@ -1,0 +1,129 @@
+let $body = $('body');
+let $bodyHtml = $('body, html');
+let $window = $(window);
+let changePoint;
+let hash = '';
+let hashInit;
+let items;
+let resizeTimeout;
+let animating;
+
+let options = {
+    active: 'active',
+    item: '.navigate-item',
+    prefix: 'navigate-',
+    replace: false
+};
+
+export function init(opts) {
+    options = Object.assign(options, opts || {});
+
+    if (!items) {
+        items = [];
+        hashInit = !!location.hash.replace('#', '');
+
+        $window.on('resize', resize);
+        $window.on('scroll', scroll);
+        $window.on('hashchange', hashchange);
+    }
+
+    $(options.item).each(function(index, item) {
+        item = $(item);
+        if (!item.data('navigate')) {
+            item = { 'element': item };
+            item.element.on('click', click);
+            item.hash = item.element.attr('href');
+            item.id = item.hash.replace('#', '');
+
+            if (!item.id) {
+                item.target = $body;
+            } else {
+                item.target = $(item.hash);
+                if (!item.target.data('navigate')) {
+                    item.target.data('navigate', item);
+                    item.target.attr('id', options.prefix + item.id);
+                }
+            }
+
+            item.element.data('navigate', item);
+            items.push(item);
+        }
+    });
+
+    $('img').on('load', resize);
+    resize();
+}
+
+function click(e) {
+    e.preventDefault();
+    let item = $(e.currentTarget).data('navigate');
+    change(item.hash);
+}
+
+function resize() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(resizeCalculate, 100);
+}
+
+function resizeCalculate() {
+    changePoint = $window.height() / 2;
+
+    let i, item;
+    for (i=0; i<items.length; i++) {
+        item = items[i];
+        item.top = item.target.offset().top;
+    }
+
+    items.sort(function(a, b){
+        return (a.top < b.top) ? -1 : ((a.top > b.top) ? 1 : 0);
+    });
+
+    if (hashInit) {
+        hashInit = false;
+        hashchange();
+    } else {
+        scroll();
+    }
+}
+
+function scroll() {
+    if (!animating) {
+        let i, item, top = $window.scrollTop() + changePoint;
+        for (i=items.length-1; i>=0; i--) {
+            item = items[i];
+            if (item.top <= top) {
+                if (hash != item.id) {
+                    change(item.hash, true);
+                }
+                break;
+            }
+        }
+    }
+}
+
+function change(hash, prevent) {
+    if (options.replace) {
+        history.replaceState(null, '', hash);
+    } else {
+        history.pushState(null, '', hash);
+    }
+    hashchange(null, prevent);
+}
+
+function hashchange(e, prevent) {
+    let h = location.hash.replace('#', '');
+    if (hash != h || !e) {
+        hash = h;
+        let i, item;
+        for (i=0; i<items.length; i++) {
+            item = items[i];
+            item.element.toggleClass(options.active, item.id == hash);
+            if (!prevent && item.id == hash) {
+                animating = true;
+                $bodyHtml.stop(true).animate({'scrollTop': item.top}, function() {
+                    animating = false;
+                });
+            }
+        }
+    }
+}
