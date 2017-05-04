@@ -1,7 +1,7 @@
 {
     "name": "navigate.js",
-    "version": "1.0.2",
-    "description": "",
+    "version": "1.0.3",
+    "description": "Animated navigation on one-pagers using anchors.",
     "main": "dist/navigate.js",
     "license": "MIT",
     "files": [
@@ -15,6 +15,8 @@
         "hashchange",
         "location",
         "navigate",
+        "pushState",
+        "replaceState",
         "slide"
     ],
     "author": {
