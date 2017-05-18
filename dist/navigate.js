@@ -2,7 +2,7 @@
 * navigate.js 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.3 
+* @version 1.0.4 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
@@ -26,6 +26,7 @@ var animating = void 0;
 
 var options = {
     active: 'active',
+    history: true,
     item: '.navigate-item',
     prefix: 'navigate-',
     replace: false
@@ -36,11 +37,14 @@ function init(opts) {
 
     if (!items) {
         items = [];
-        hashInit = !!location.hash.replace('#', '');
 
         $window.on('resize', resize);
         $window.on('scroll', scroll);
-        $window.on('hashchange', hashchange);
+
+        if (options.history) {
+            hashInit = !!location.hash.replace('#', '');
+            $window.on('hashchange', hashchange);
+        }
     }
 
     $(options.item).each(function (index, item) {
@@ -57,7 +61,9 @@ function init(opts) {
                 item.target = $(item.hash);
                 if (!item.target.data('navigate')) {
                     item.target.data('navigate', item);
-                    item.target.attr('id', options.prefix + item.id);
+                    if (options.history) {
+                        item.target.attr('id', options.prefix + item.id);
+                    }
                 }
             }
 
@@ -73,7 +79,12 @@ function init(opts) {
 function click(e) {
     e.preventDefault();
     var item = $(e.currentTarget).data('navigate');
-    change(item.hash);
+    if (options.history) {
+        change(item.hash);
+    } else {
+        select(item.id);
+        slide(item.top);
+    }
 }
 
 function resize() {
@@ -112,7 +123,11 @@ function scroll() {
             item = items[i];
             if (item.top <= top) {
                 if (hash != item.id) {
-                    change(item.hash, true);
+                    if (options.history) {
+                        change(item.hash, true);
+                    } else {
+                        select(item.id);
+                    }
                 }
                 break;
             }
@@ -139,11 +154,24 @@ function hashchange(e, prevent) {
             item = items[i];
             item.element.toggleClass(options.active, item.id == hash);
             if (!prevent && item.id == hash) {
-                animating = true;
-                $bodyHtml.stop(true).animate({ 'scrollTop': item.top }, function () {
-                    animating = false;
-                });
+                slide(item.top);
             }
         }
     }
+}
+
+function select(id) {
+    var i = void 0,
+        item = void 0;
+    for (i = 0; i < items.length; i++) {
+        item = items[i];
+        item.element.toggleClass(options.active, item.id == id);
+    }
+}
+
+function slide(top) {
+    animating = true;
+    $bodyHtml.stop(true).animate({ 'scrollTop': top }, function () {
+        animating = false;
+    });
 }

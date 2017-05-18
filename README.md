@@ -21,6 +21,7 @@ var Navigate = require('navigate.js');
 $(function() {
     Navigate.init({
         active: 'active',
+        history: true,
         item: '.navigate-item',
         prefix: 'navigate-',
         replace: false
