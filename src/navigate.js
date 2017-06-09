@@ -42,7 +42,7 @@ export function init(opts) {
             if (!item.id) {
                 item.target = $body;
             } else {
-                item.target = $(item.hash);
+                item.target = $(item.hash + ', #' + options.prefix + item.id);
                 if (!item.target.data('navigate')) {
                     item.target.data('navigate', item);
                     if (options.history) {

@@ -2,7 +2,7 @@
 * navigate.js 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.4 
+* @version 1.0.5 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
@@ -58,7 +58,7 @@ function init(opts) {
             if (!item.id) {
                 item.target = $body;
             } else {
-                item.target = $(item.hash);
+                item.target = $(item.hash + ', #' + options.prefix + item.id);
                 if (!item.target.data('navigate')) {
                     item.target.data('navigate', item);
                     if (options.history) {
