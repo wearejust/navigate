@@ -99,10 +99,11 @@ function resizeCalculate() {
 
 function scroll() {
     if (!animating) {
-        let i, item, top = $window.scrollTop() + changePoint;
+        let i, b, item, top = $window.scrollTop() + changePoint;
         for (i=items.length-1; i>=0; i--) {
             item = items[i];
             if (item.top <= top) {
+                b = true;
                 if (hash != item.id) {
                     if (options.history) {
                         change(item.hash, true);
@@ -111,6 +112,14 @@ function scroll() {
                     }
                 }
                 break;
+            }
+        }
+
+        if (!b) {
+            if (hash) {
+                change('#', true);
+            } else {
+                select();
             }
         }
     }

@@ -2,7 +2,7 @@
 * navigate.js 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.5 
+* @version 1.0.6 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
@@ -117,11 +117,13 @@ function resizeCalculate() {
 function scroll() {
     if (!animating) {
         var i = void 0,
+            b = void 0,
             item = void 0,
             top = $window.scrollTop() + changePoint;
         for (i = items.length - 1; i >= 0; i--) {
             item = items[i];
             if (item.top <= top) {
+                b = true;
                 if (hash != item.id) {
                     if (options.history) {
                         change(item.hash, true);
@@ -130,6 +132,14 @@ function scroll() {
                     }
                 }
                 break;
+            }
+        }
+
+        if (!b) {
+            if (hash) {
+                change('#', true);
+            } else {
+                select();
             }
         }
     }
