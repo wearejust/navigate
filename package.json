@@ -1,6 +1,6 @@
 {
     "name": "@wearejust/navigate",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "description": "Animated navigation on one-pagers using anchors.",
     "main": "dist/navigate.js",
     "license": "MIT",

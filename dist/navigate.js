@@ -2,7 +2,7 @@
 * @wearejust/navigate 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.7 
+* @version 1.0.8 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
