@@ -1,8 +1,8 @@
 /** 
-* navigate.js 
+* @wearejust/navigate 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.6 
+* @version 1.0.7 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';

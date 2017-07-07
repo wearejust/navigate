@@ -2,12 +2,12 @@
 
 ### Installation
 ```
-npm install navigate.js --save
+npm install @wearejust/navigate --save
 ```
 
 ### Usage
 ```javascript
-var Navigate = require('navigate.js');
+var Navigate = require('@wearejust/navigate.js');
 
 $(function() {
     Navigate.init();
@@ -16,7 +16,7 @@ $(function() {
 
 #### With options
 ```javascript
-var Navigate = require('navigate.js');
+var Navigate = require('@wearejust/navigate.js');
 
 $(function() {
     Navigate.init({
