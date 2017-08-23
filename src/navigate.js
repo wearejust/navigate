@@ -13,7 +13,8 @@ let options = {
     history: true,
     item: '.navigate-item',
     prefix: 'navigate-',
-    replace: false
+    replace: false,
+    resetAtTop: true
 };
 
 export function init(opts) {
@@ -101,18 +102,20 @@ function resizeCalculate() {
 function scroll() {
     if (!animating) {
         let i, b, item, top = $window.scrollTop() + changePoint;
-        for (i=items.length-1; i>=0; i--) {
-            item = items[i];
-            if (item.top <= top) {
-                b = true;
-                if (hash != item.id) {
-                    if (options.history) {
-                        change(item.hash, true);
-                    } else {
-                        select(item.id);
+        if (!options.resetAtTop || top > changePoint) {
+            for (i=items.length-1; i>=0; i--) {
+                item = items[i];
+                if (item.top <= top) {
+                    b = true;
+                    if (hash != item.id) {
+                        if (options.history) {
+                            change(item.hash, true);
+                        } else {
+                            select(item.id);
+                        }
                     }
+                    break;
                 }
-                break;
             }
         }
 

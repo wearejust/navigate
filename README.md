@@ -24,7 +24,8 @@ $(function() {
         history: true,
         item: '.navigate-item',
         prefix: 'navigate-',
-        replace: false
+        replace: false,
+        resetAtTop: true
     });
 });
 ```
