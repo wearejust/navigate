@@ -18,6 +18,7 @@ let options = {
 
 export function init(opts) {
     options = Object.assign(options, opts || {});
+    options.historyAvailable = !!history.pushState;
 
     if (!items) {
         items = [];
@@ -127,9 +128,17 @@ function scroll() {
 
 function change(hash, prevent) {
     if (options.replace) {
-        history.replaceState(null, '', hash);
+        if (options.historyAvailable) {
+            history.replaceState(null, '', hash);
+        } else {
+            window.location.replace(window.location.pathname + hash);
+        }
     } else {
-        history.pushState(null, '', hash);
+        if (options.historyAvailable) {
+            history.pushState(null, '', hash);
+        } else {
+            window.location.hash = hash;
+        }
     }
     hashchange(null, prevent);
 }
