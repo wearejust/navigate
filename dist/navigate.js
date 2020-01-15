@@ -2,7 +2,7 @@
 * @wearejust/navigate 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.0.10 
+* @version 1.11.0 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
@@ -81,6 +81,8 @@ function init(opts) {
 
 function click(e) {
     e.preventDefault();
+    resize();
+
     var item = $(e.currentTarget).data('navigate');
     if (options.history) {
         change(item.hash);
@@ -151,6 +153,7 @@ function scroll() {
 }
 
 function change(hash, prevent) {
+
     if (options.replace) {
         if (options.historyAvailable) {
             history.replaceState(null, '', hash);
@@ -168,6 +171,7 @@ function change(hash, prevent) {
 }
 
 function hashchange(e, prevent) {
+
     var h = location.hash.replace('#', '');
     if (hash != h || !e) {
         hash = h;
