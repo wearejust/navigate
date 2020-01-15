@@ -30,7 +30,8 @@ $(function() {
         item: '.navigate-item',     // Item selector
         prefix: 'navigate-',        // Prefix anchor target to enable animation
         replace: false,             // Replace location history, instead of adding
-        resetAtTop: true            // Clears location address at the top of the page
+        resetAtTop: true,           // Clears location address at the top of the page
+        offset: true                // Add or subtract offset for the scroll destination
     });
 });
 ```

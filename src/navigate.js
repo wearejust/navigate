@@ -65,6 +65,8 @@ export function init(opts) {
 
 function click(e) {
     e.preventDefault();
+    resize();
+
     let item = $(e.currentTarget).data('navigate');
     if (options.history) {
         change(item.hash);
@@ -131,6 +133,7 @@ function scroll() {
 }
 
 function change(hash, prevent) {
+
     if (options.replace) {
         if (options.historyAvailable) {
             history.replaceState(null, '', hash);
@@ -148,6 +151,7 @@ function change(hash, prevent) {
 }
 
 function hashchange(e, prevent) {
+
     let h = location.hash.replace('#', '');
     if (hash != h || !e) {
         hash = h;
