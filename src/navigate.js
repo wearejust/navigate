@@ -14,7 +14,8 @@ let options = {
     item: '.navigate-item',
     prefix: 'navigate-',
     replace: false,
-    resetAtTop: true
+    resetAtTop: true,
+    offset: 0,
 };
 
 export function init(opts) {
@@ -64,6 +65,8 @@ export function init(opts) {
 
 function click(e) {
     e.preventDefault();
+    resize();
+
     let item = $(e.currentTarget).data('navigate');
     if (options.history) {
         change(item.hash);
@@ -130,6 +133,7 @@ function scroll() {
 }
 
 function change(hash, prevent) {
+
     if (options.replace) {
         if (options.historyAvailable) {
             history.replaceState(null, '', hash);
@@ -147,6 +151,7 @@ function change(hash, prevent) {
 }
 
 function hashchange(e, prevent) {
+
     let h = location.hash.replace('#', '');
     if (hash != h || !e) {
         hash = h;
@@ -171,6 +176,7 @@ function select(id) {
 
 function slide(top) {
     animating = true;
+    top = top - options.offset
     $bodyHtml.stop(true).animate({'scrollTop': top}, function() {
         animating = false;
     });
