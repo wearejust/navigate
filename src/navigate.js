@@ -14,7 +14,8 @@ let options = {
     item: '.navigate-item',
     prefix: 'navigate-',
     replace: false,
-    resetAtTop: true
+    resetAtTop: true,
+    offset: 0,
 };
 
 export function init(opts) {
@@ -171,6 +172,7 @@ function select(id) {
 
 function slide(top) {
     animating = true;
+    top = top - options.offset
     $bodyHtml.stop(true).animate({'scrollTop': top}, function() {
         animating = false;
     });
