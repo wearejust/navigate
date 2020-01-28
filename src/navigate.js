@@ -16,6 +16,7 @@ let options = {
     replace: false,
     resetAtTop: true,
     offset: 0,
+    speed: 500,
 };
 
 export function init(opts) {
@@ -177,7 +178,7 @@ function select(id) {
 function slide(top) {
     animating = true;
     top = top - options.offset
-    $bodyHtml.stop(true).animate({'scrollTop': top}, function() {
+    $bodyHtml.stop(true).animate({'scrollTop': top}, options.speed, function() {
         animating = false;
     });
 }

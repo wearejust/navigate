@@ -2,7 +2,7 @@
 * @wearejust/navigate 
 * Animated navigation on one-pagers using anchors. 
 * 
-* @version 1.11.1 
+* @version 1.12.0 
 * @author Emre Koc <emre.koc@wearejust.com> 
 */
 'use strict';
@@ -31,7 +31,8 @@ var options = {
     prefix: 'navigate-',
     replace: false,
     resetAtTop: true,
-    offset: 0
+    offset: 0,
+    speed: 500
 };
 
 function init(opts) {
@@ -199,7 +200,7 @@ function select(id) {
 function slide(top) {
     animating = true;
     top = top - options.offset;
-    $bodyHtml.stop(true).animate({ 'scrollTop': top }, function () {
+    $bodyHtml.stop(true).animate({ 'scrollTop': top }, options.speed, function () {
         animating = false;
     });
 }
